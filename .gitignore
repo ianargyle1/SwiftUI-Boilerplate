@@ -1,6 +1,10 @@
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+*.xcworkspace
+
+## Mac OS
+.DS_Store
 
 ## Build generated
 build/
@@ -30,7 +34,6 @@ xcuserdata/
 
 ## Playgrounds
 timeline.xctimeline
-playground.xcworkspace
 
 # Swift Package Manager
 #
