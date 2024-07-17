@@ -13,6 +13,11 @@ struct NavigationView: View {
     var body: some View {
         if (authViewModel.jwtPayload != nil) {
             Text("Current User: \(String(describing: authViewModel.jwtPayload))")
+            BTButton(
+                title: "Logout",
+                fullWidth: true,
+                action: { authViewModel.logout() }
+            )
         } else {
             LoginView()
         }
