@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  RegisterView.swift
 //  SwiftUI Boilerplate
 //
 //  Created by Ian Argyle on 7/8/24.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct LoginView: View {
-    @StateObject var viewModel = LoginViewViewModel()
+struct RegisterView: View {
+    @StateObject var viewModel = RegisterViewModel()
     
     var body: some View {
         VStack {
@@ -25,11 +25,17 @@ struct LoginView: View {
                 errorMessage: !viewModel.password.isEmpty ? $viewModel.passwordError : .constant(""),
                 placeholder: "Password"
             )
+            .padding(.bottom, 10)
+            BTSecureField(
+                text: $viewModel.password,
+                errorMessage: !viewModel.password.isEmpty ? $viewModel.passwordError : .constant(""),
+                placeholder: "Repeat Password"
+            )
             .padding(.bottom, 20)
             BTButton(
                 title: "Login",
                 fullWidth: true,
-                action: { viewModel.login() },
+                action: {  },
                 disabled: .constant(!viewModel.isValid)
             )
         }
@@ -38,5 +44,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    RegisterView()
 }

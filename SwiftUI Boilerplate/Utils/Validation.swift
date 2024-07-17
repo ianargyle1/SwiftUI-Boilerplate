@@ -25,4 +25,11 @@ class Validation {
         }
         return ""
     }
+    
+    static func validatePasswordsMatch(_ password1: String, _ password2: String) -> String {
+        if password1 != password2 {
+            return PASSWORDS_DONT_MATCH
+        }
+        return ""
+    }
 }

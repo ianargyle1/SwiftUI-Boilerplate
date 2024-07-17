@@ -10,3 +10,5 @@ import Foundation
 public let INVALID_EMAIL_ADDRESS = "Please enter a valid email"
 public let PASSWORD_TOO_SHORT = "Password must be at least 8 characters"
 public let PASSWORD_TOO_LONG = "Password must no longer than 64 characters"
+public let PASSWORDS_DONT_MATCH = "Passwords must match"
+
