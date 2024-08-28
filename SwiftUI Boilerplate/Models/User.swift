@@ -1,8 +1,8 @@
 //
-//  UserModel.swift
+//  User.swift
 //  SwiftUI Boilerplate
 //
-//  Created by Ian Argyle on 7/14/24.
+//  Created by Ian Argyle on 7/29/24.
 //
 
 import Foundation

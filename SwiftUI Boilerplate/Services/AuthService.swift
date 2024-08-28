@@ -8,22 +8,31 @@
 import Foundation
 import KeychainAccess
 import JWTDecode
+import Combine
 
+// KEEP THIS OBSERVABLE
+// If we discover that the token is expired in the APIService, and call the logout function,
+// we need a way to know that the user has been logged FROM the the view/view model
 class AuthService: ObservableObject {
     static let shared = AuthService()
     private let keychain = Keychain(service: "com.example.myapp")
-    
-    public static func decodeJWT(_ token: String?) -> JWTPayload? {
-        guard token != nil,
-              !token!.isEmpty,
-              let jwt = try? decode(jwt: token!),
-              let payloadData = try? JSONSerialization.data(withJSONObject: jwt.body),
+    private let refreshQueue = DispatchQueue(label: "com.example.myapp.refreshQueue")
+    private var isRefreshing = false
+    private var refreshSubject = PassthroughSubject<Bool, Never>()
+    private var cancellables = Set<AnyCancellable>()
+
+    // Decode JWT token
+    public static func decodeJWT(_ jwt: String?) -> JWTPayload? {
+        guard let jwt = jwt, !jwt.isEmpty,
+              let jwtData = try? decode(jwt: jwt),
+              let payloadData = try? JSONSerialization.data(withJSONObject: jwtData.body),
               let payload = try? JSONDecoder().decode(JWTPayload.self, from: payloadData) else {
             return nil
         }
         return payload
     }
-    
+
+    // Check if token is expired
     public static func isExpired(_ token: String?) -> Bool {
         guard let payload = decodeJWT(token), Date() < Date(timeIntervalSince1970: payload.exp) else {
             return true
@@ -31,18 +40,119 @@ class AuthService: ObservableObject {
         return false
     }
 
-    @Published var jwt: String? {
+    // Observe and store the token
+    @Published private(set) var token: String? {
         didSet {
-            if let jwt = jwt {
-                try? keychain.set(jwt, key: "jwt")
+            if let token = token {
+                try? keychain.set(token, key: "token")
             } else {
-                try? keychain.remove("jwt")
+                try? keychain.remove("token")
             }
         }
     }
 
+    // Observe and store the refresh token
+    @Published private(set) var refreshToken: String? {
+        didSet {
+            if let refreshToken = refreshToken {
+                try? keychain.set(refreshToken, key: "refreshToken")
+            } else {
+                try? keychain.remove("refreshToken")
+            }
+        }
+    }
+
+    // Private initializer to ensure singleton pattern
     private init() {
-        jwt = try? keychain.get("jwt")
+        token = try? keychain.get("token")
+        refreshToken = try? keychain.get("refreshToken")
+    }
+
+    // Login function
+    public func login(email: String, password: String, completion: @escaping (Error?) -> Void) {
+        let request = APIRequest<LoginRequest>(
+            path: "auth/login",
+            method: .post,
+            body: LoginRequest(email: email, password: password)
+        )
+
+        APIService.shared.fetchData(with: request) { [weak self] (result: Result<AuthResponse, Error>) in
+            switch result {
+            case .success(let authResponse):
+                DispatchQueue.main.async { // Ensure UI updates are on the main thread
+                    self?.token = authResponse.token
+                    self?.refreshToken = authResponse.refresh_token
+                    completion(nil)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }
+    }
+    
+    // Logout function
+    public func logout() {
+        token = nil
+        refreshToken = nil
+    }
+
+    // Refresh token function
+    public func refreshToken(completion: @escaping (Bool) -> Void) {
+        refreshQueue.sync {
+            if isRefreshing {
+                refreshSubject
+                    .sink(receiveValue: { success in
+                        completion(success)
+                    })
+                    .store(in: &cancellables)
+                return
+            }
+
+            isRefreshing = true
+        }
+
+        let request = APIRequest<EmptyCodable>(
+            path: "auth/refresh",
+            method: .post,
+            headers: ["Authorization": "Bearer \(refreshToken ?? "")"],
+            body: nil
+        )
+
+        APIService.shared.fetchData(with: request) { [weak self] (result: Result<AuthResponse, Error>) in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                self.refreshQueue.sync {
+                    defer {
+                        self.isRefreshing = false
+                        self.refreshSubject.send(result.isSuccess)
+                        self.refreshSubject = PassthroughSubject<Bool, Never>() // Reset subject for next use
+                    }
+
+                    switch result {
+                    case .success(let authResponse):
+                        self.token = authResponse.token
+                        self.refreshToken = authResponse.refresh_token
+                        completion(true)
+                    case .failure:
+                        completion(false)
+                    }
+                }
+            }
+        }
     }
 }
+
+extension Result {
+    var isSuccess: Bool {
+        switch self {
+        case .success: return true
+        case .failure: return false
+        }
+    }
+}
+
+
 

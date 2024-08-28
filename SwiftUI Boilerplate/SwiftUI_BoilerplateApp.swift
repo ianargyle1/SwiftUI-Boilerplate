@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct SwiftUI_BoilerplateApp: App {
-    @StateObject var authViewModel = AuthViewModel()
+    @StateObject var userViewModel = UserViewModel()
     
     var body: some Scene {
         WindowGroup {
             NavigationView()
-                .environmentObject(authViewModel)
+                .environmentObject(userViewModel)
         }
     }
 }

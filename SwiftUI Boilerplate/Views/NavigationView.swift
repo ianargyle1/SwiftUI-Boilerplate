@@ -8,33 +8,17 @@
 import SwiftUI
 
 struct NavigationView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @ObservedObject var authService = AuthService.shared
     
     var body: some View {
-        if (authViewModel.jwtPayload != nil) {
-            Text("Current User: \(String(describing: authViewModel.jwtPayload))")
-            BTButton(
-                title: "Logout",
-                fullWidth: true,
-                action: { authViewModel.logout() }
-            )
+        if (authService.token != nil) {
+            UserView()
         } else {
             LoginView()
         }
     }
 }
 
-struct NavigationView_Previews: PreviewProvider {
-    struct PreviewWrapper: View {
-        @StateObject var authViewModel = AuthViewModel()
-        
-        var body: some View {
-            NavigationView().environmentObject(authViewModel)
-        }
-    }
-    
-    static var previews: some View {
-        PreviewWrapper()
-    }
+#Preview {
+    NavigationView()
 }
-

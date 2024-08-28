@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
-    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         VStack {
@@ -26,8 +25,12 @@ struct LoginView: View {
             BTButton(
                 title: "Login",
                 fullWidth: true,
-                action: { authViewModel.login() },
-                disabled: .constant(!viewModel.emailError.isEmpty || viewModel.password.isEmpty)
+                action: { viewModel.login() },
+                disabled: .constant(
+                    !viewModel.emailError.isEmpty ||
+                    viewModel.password.isEmpty ||
+                    viewModel.isLoading
+                )
             )
         }
         .padding(30)
