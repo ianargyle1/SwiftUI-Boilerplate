@@ -23,7 +23,7 @@ struct LoginView: View {
             BTSecureField(text: $viewModel.password, placeholder: "Password")
                 .padding(.bottom, 20)
             BTButton(
-                title: "Login",
+                title: "Register",
                 fullWidth: true,
                 action: { viewModel.login() },
                 disabled: .constant(
@@ -32,6 +32,11 @@ struct LoginView: View {
                     viewModel.isLoading
                 )
             )
+            NavigationLink("Sign Up") {
+                RegisterView()
+                    .navigationBarBackButtonHidden(true)
+            }
+            .padding(.top, 20)
         }
         .padding(30)
     }

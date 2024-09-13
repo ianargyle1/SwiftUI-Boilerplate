@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @StateObject var viewModel = RegisterViewModel()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
@@ -38,6 +39,10 @@ struct RegisterView: View {
                 action: {  },
                 disabled: .constant(!viewModel.isValid)
             )
+            Button("Sign In") {
+                dismiss()
+            }
+            .padding(.top, 20)
         }
         .padding(30)
     }
