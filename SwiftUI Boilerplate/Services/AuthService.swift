@@ -68,12 +68,36 @@ class AuthService: ObservableObject {
         refreshToken = try? keychain.get("refreshToken")
     }
 
-    // Login function
+    // Login a user
     public func login(email: String, password: String, completion: @escaping (Error?) -> Void) {
         let request = APIRequest<LoginRequest>(
             path: "auth/login",
             method: .post,
             body: LoginRequest(email: email, password: password)
+        )
+
+        APIService.shared.fetchData(with: request) { [weak self] (result: Result<AuthResponse, Error>) in
+            switch result {
+            case .success(let authResponse):
+                DispatchQueue.main.async { // Ensure UI updates are on the main thread
+                    self?.token = authResponse.token
+                    self?.refreshToken = authResponse.refresh_token
+                    completion(nil)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }
+    }
+    
+    // Register a new user
+    public func register(firstName: String, lastName: String, email: String, password: String, completion: @escaping (Error?) -> Void) {
+        let request = APIRequest<RegisterRequest>(
+            path: "auth/register",
+            method: .post,
+            body: RegisterRequest(first_name: firstName, last_name: lastName, email: email, password: password)
         )
 
         APIService.shared.fetchData(with: request) { [weak self] (result: Result<AuthResponse, Error>) in

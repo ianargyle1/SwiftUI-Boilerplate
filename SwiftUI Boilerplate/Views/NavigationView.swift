@@ -11,10 +11,10 @@ struct NavigationView: View {
     @ObservedObject var authService = AuthService.shared
     
     var body: some View {
-        NavigationStack {
-            if (authService.token != nil) {
-                UserView()
-            } else {
+        if (authService.token != nil) {
+            UserView()
+        } else {
+            NavigationStack {
                 LoginView()
             }
         }
