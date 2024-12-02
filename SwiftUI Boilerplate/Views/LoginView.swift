@@ -38,6 +38,7 @@ struct LoginView: View {
                     .navigationBarBackButtonHidden(true)
             }
             .padding(.top, 20)
+            
             SignInWithAppleButton(.signIn) { request in
                 request.requestedScopes = [.fullName, .email]
             } onCompletion: { result in
@@ -55,6 +56,26 @@ struct LoginView: View {
             .cornerRadius(10)
             .padding(.top, 20)
             .disabled(viewModel.isLoading)
+            
+            Button(action: {}) {
+                HStack {
+                    Image(.google)
+                        .resizable()
+                        .frame(width: 17, height: 17)
+                    Text("Sign in with Google")
+                        .font(.system(size: 19, weight: .medium))
+                }
+              }
+            .disabled(viewModel.isLoading)
+            .frame(height: 50)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .background(.white)
+            .foregroundColor(.black)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+            .cornerRadius(10)
         }
         .padding(30)
     }
