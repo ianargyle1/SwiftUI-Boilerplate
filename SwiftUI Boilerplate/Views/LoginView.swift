@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
@@ -37,6 +38,23 @@ struct LoginView: View {
                     .navigationBarBackButtonHidden(true)
             }
             .padding(.top, 20)
+            SignInWithAppleButton(.signIn) { request in
+                request.requestedScopes = [.fullName, .email]
+            } onCompletion: { result in
+                switch result {
+                case .success(let authorization):
+                    if let userCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+                        viewModel.loginWithApple(userCredential: userCredential)
+                    }
+                case .failure:
+                    break
+                }
+            }
+            .frame(height: 50)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .cornerRadius(10)
+            .padding(.top, 20)
+            .disabled(viewModel.isLoading)
         }
         .padding(30)
     }

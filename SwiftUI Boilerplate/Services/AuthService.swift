@@ -92,6 +92,30 @@ class AuthService: ObservableObject {
         }
     }
     
+    // Login a user with apple credentials
+    public func loginWithApple(firstName: String?, lastName: String?, email: String?, appleId: String, token: String, completion: @escaping (Error?) -> Void) {
+        let request = APIRequest<AppleLoginRequest>(
+            path: "auth/login-apple",
+            method: .post,
+            body: AppleLoginRequest(first_name: firstName, last_name: lastName, email: email, apple_id: appleId, token: token)
+        )
+
+        APIService.shared.fetchData(with: request) { [weak self] (result: Result<AuthResponse, Error>) in
+            switch result {
+            case .success(let authResponse):
+                DispatchQueue.main.async { // Ensure UI updates are on the main thread
+                    self?.token = authResponse.token
+                    self?.refreshToken = authResponse.refresh_token
+                    completion(nil)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }
+    }
+    
     // Register a new user
     public func register(firstName: String, lastName: String, email: String, password: String, completion: @escaping (Error?) -> Void) {
         let request = APIRequest<RegisterRequest>(

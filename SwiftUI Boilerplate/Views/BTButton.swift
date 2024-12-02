@@ -15,6 +15,7 @@ struct BTButton: View {
     let radius: CGFloat
     let fullWidth: Bool
     let action: () -> Void
+    let buttonHeight: CGFloat
     
     @Binding var disabled: Bool
     
@@ -26,7 +27,8 @@ struct BTButton: View {
         radius: CGFloat = 10,
         fullWidth: Bool = false,
         action: @escaping () -> Void,
-        disabled: Binding<Bool> = .constant(false)
+        disabled: Binding<Bool> = .constant(false),
+        buttonHeight: CGFloat = 20
     ) {
         self.title = title
         self.background = background
@@ -36,12 +38,14 @@ struct BTButton: View {
         self.fullWidth = fullWidth
         self.action = action
         self._disabled = disabled
+        self.buttonHeight = buttonHeight
     }
     
     var body: some View {
         Button(action: action) {
             Text(title)
                 .frame(maxWidth: fullWidth ? .infinity : nil)
+                .frame(height: buttonHeight)
                 .bold()
                 .padding()
                 .foregroundColor(forground)

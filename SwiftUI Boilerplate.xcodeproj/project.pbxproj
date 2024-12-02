@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B24010F2CA5F18C00EEFC1F /* AppleLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B24010E2CA5F18C00EEFC1F /* AppleLoginRequest.swift */; };
 		7B671C962C418165008BBEA5 /* SwiftUI_BoilerplateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B671C952C418165008BBEA5 /* SwiftUI_BoilerplateApp.swift */; };
 		7B671C9A2C418166008BBEA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B671C992C418166008BBEA5 /* Assets.xcassets */; };
 		7B671C9D2C418166008BBEA5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B671C9C2C418166008BBEA5 /* Preview Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B24010E2CA5F18C00EEFC1F /* AppleLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginRequest.swift; sourceTree = "<group>"; };
 		7B671C922C418165008BBEA5 /* SwiftUI Boilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI Boilerplate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B671C952C418165008BBEA5 /* SwiftUI_BoilerplateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_BoilerplateApp.swift; sourceTree = "<group>"; };
 		7B671C992C418166008BBEA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		7BB286C22C581E99003A58DC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7BB286C42C5A93C6003A58DC /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		7BD1D7172C95174A00CFC1B0 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
+		7BD1D7192C9772FC00CFC1B0 /* SwiftUI Boilerplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SwiftUI Boilerplate.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 		7B671C942C418165008BBEA5 /* SwiftUI Boilerplate */ = {
 			isa = PBXGroup;
 			children = (
+				7BD1D7192C9772FC00CFC1B0 /* SwiftUI Boilerplate.entitlements */,
 				7B671C952C418165008BBEA5 /* SwiftUI_BoilerplateApp.swift */,
 				7B671C992C418166008BBEA5 /* Assets.xcassets */,
 				7BB2869D2C45D96E003A58DC /* Services */,
@@ -184,6 +188,7 @@
 			children = (
 				7BB286BA2C4EA71C003A58DC /* LoginRequest.swift */,
 				7BD1D7172C95174A00CFC1B0 /* RegisterRequest.swift */,
+				7B24010E2CA5F18C00EEFC1F /* AppleLoginRequest.swift */,
 			);
 			path = APIRequests;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				7B671CD82C443301008BBEA5 /* NavigationViewModel.swift in Sources */,
 				7B671CB62C4181B3008BBEA5 /* Constants.swift in Sources */,
 				7B671CD02C419431008BBEA5 /* RegisterViewModel.swift in Sources */,
+				7B24010F2CA5F18C00EEFC1F /* AppleLoginRequest.swift in Sources */,
 				7B671CB72C4181B3008BBEA5 /* Extensions.swift in Sources */,
 				7BB286A62C4833E8003A58DC /* APIRequest.swift in Sources */,
 				7B671CC22C4181BA008BBEA5 /* BTTextField.swift in Sources */,
@@ -429,9 +435,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "SwiftUI Boilerplate/SwiftUI Boilerplate.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUI Boilerplate/Preview Content\"";
+				DEVELOPMENT_TEAM = 27EH36ABVU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -446,6 +455,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ianargyle.SwiftUI-Boilerplate";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -457,9 +467,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "SwiftUI Boilerplate/SwiftUI Boilerplate.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUI Boilerplate/Preview Content\"";
+				DEVELOPMENT_TEAM = 27EH36ABVU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -474,6 +487,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ianargyle.SwiftUI-Boilerplate";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
